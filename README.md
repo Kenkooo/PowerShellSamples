@@ -1,2 +1,3 @@
 # PowerShellSamples
-PowerShellを活用するためのサンプルコーを記載します。
+PowerShellを活用するためのサンプルコードを保存していきます。
+
