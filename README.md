@@ -1,3 +1,3 @@
 # PowerShellSamples
 PowerShellを活用するためのサンプルコードを保存していきます。
-
+※基本的にサンプルコードは文字コードとしてShift JISを利用しています。

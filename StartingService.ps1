@@ -4,7 +4,6 @@ $ServiceName = "Eventlog"
 # Read the service
 $ServiceInfo = Get-Service -Name $ServiceName
 
-
 # If the service is not running(ne)
 if ($ServiceInfo.status -ne "Running") {
     # Write to the console that the services is not running
