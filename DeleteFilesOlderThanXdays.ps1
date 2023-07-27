@@ -1,17 +1,17 @@
 
-# “ú•t‚ğæ“¾
+# æ—¥ä»˜ã‚’å–å¾—
 $NowDate = Get-Date -Format "yyyyMMdd_HHmmss"
-# íœ‚µ‚½‚¢ƒtƒ@ƒCƒ‹‚ÌŠî€ŠÔİ’è
-$DeleteTime = "-14400"       ### 10æ—¥
+# å‰Šé™¤ã—ãŸã„ãƒ•ã‚¡ã‚¤ãƒ«ã®åŸºæº–æ™‚é–“è¨­å®š
+$DeleteTime = "-14400"       ### 10æ—¥ï½¥
  
  
-# ‘ÎÛƒtƒHƒ‹ƒ_‚ÌƒAƒCƒeƒ€æ“¾
-Get-ChildItem F:\Lanscope_CSV |
-# ì¬ŠÔ‚ª$DeleteTime‚Ì’l‚ğ‰ß‚¬‚½ƒtƒ@ƒCƒ‹‚ğ’Šo
+# å¯¾è±¡ãƒ•ã‚©ãƒ«ãƒ€ã®ã‚¢ã‚¤ãƒ†ãƒ å–å¾—
+Get-ChildItem C:\Windows |
+# ä½œæˆæ™‚é–“ãŒ$DeleteTimeã®å€¤ã‚’éããŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŠ½å‡º
 Where-Object {
 $_.CreationTime -lt (Get-Date).AddMinutes($DeleteTime)
 } |
-# ‘ÎÛƒtƒ@ƒCƒ‹‚ğâ‘ÎƒpƒX‚É•ÏŠ·‚µíœ‚ğÀs
+# å¯¾è±¡ãƒ•ã‚¡ã‚¤ãƒ«ã‚’çµ¶å¯¾ãƒ‘ã‚¹ã«å¤‰æ›ã—å‰Šé™¤ã‚’å®Ÿè¡Œ
 foreach {
     Remove-Item -Recurse -Force $_.FullName
 }
