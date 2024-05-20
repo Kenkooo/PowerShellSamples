@@ -19,8 +19,13 @@ foreach ($appGroup in $appGroups) {
 
     if ($roleAssignments) {
         foreach ($assignment in $roleAssignments) {
-            $roleDefinition = Get-AzRoleDefinition -Id $assignment.RoleDefinitionId
-            Write-Output "  User: $($assignment.PrincipalName), Role: $($roleDefinition.RoleName)"
+            $principalDisplayName = $assignment.DisplayName
+            $roleDefinitionName = $assignment.RoleDefinitionName
+
+            # ロールが "Desktop Virtualization User" の場合のみ出力
+            if ($roleDefinitionName -eq "Desktop Virtualization User") {
+                Write-Output "  User: $principalDisplayName, Role: $roleDefinitionName"
+            }
         }
     } else {
         Write-Output "  No roles assigned."
