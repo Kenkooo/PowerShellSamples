@@ -11,8 +11,11 @@ $appGroups = Get-AzWvdApplicationGroup -ResourceGroupName $resourceGroupName
 foreach ($appGroup in $appGroups) {
     Write-Output "Application Group: $($appGroup.Name)"
     
+    # アプリケーショングループの完全なスコープを設定
+    $scope = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.DesktopVirtualization/applicationGroups/$($appGroup.Name)"
+
     # アプリケーショングループに割り当てられているロールの一覧を取得
-    $roleAssignments = Get-AzRoleAssignment -ResourceGroupName $resourceGroupName -Scope $appGroup.Id
+    $roleAssignments = Get-AzRoleAssignment -Scope $scope
 
     if ($roleAssignments) {
         foreach ($assignment in $roleAssignments) {
