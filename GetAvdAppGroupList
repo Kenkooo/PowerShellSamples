@@ -1,0 +1,25 @@
+# サブスクリプションIDとリソースグループ名を設定
+$subscriptionId = "YOUR_SUBSCRIPTION_ID"
+$resourceGroupName = "YOUR_RESOURCE_GROUP_NAME"
+
+# サブスクリプションの設定
+Select-AzSubscription -SubscriptionId $subscriptionId
+
+# アプリケーショングループの一覧を取得
+$appGroups = Get-AzWvdApplicationGroup -ResourceGroupName $resourceGroupName
+
+foreach ($appGroup in $appGroups) {
+    Write-Output "Application Group: $($appGroup.Name)"
+    
+    # アプリケーショングループに割り当てられているロールの一覧を取得
+    $roleAssignments = Get-AzRoleAssignment -ResourceGroupName $resourceGroupName -Scope $appGroup.Id
+
+    if ($roleAssignments) {
+        foreach ($assignment in $roleAssignments) {
+            $roleDefinition = Get-AzRoleDefinition -Id $assignment.RoleDefinitionId
+            Write-Output "  User: $($assignment.PrincipalName), Role: $($roleDefinition.RoleName)"
+        }
+    } else {
+        Write-Output "  No roles assigned."
+    }
+}
