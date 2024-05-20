@@ -1,0 +1,45 @@
+# サブスクリプションIDとリソースグループ名を設定
+$subscriptionId = "YOUR_SUBSCRIPTION_ID"
+$resourceGroupName = "YOUR_RESOURCE_GROUP_NAME"
+
+# サブスクリプションの設定
+Select-AzSubscription -SubscriptionId $subscriptionId
+
+# 結果を格納する配列を作成
+$results = @()
+
+# アプリケーショングループの一覧を取得
+$appGroups = Get-AzWvdApplicationGroup -ResourceGroupName $resourceGroupName
+
+foreach ($appGroup in $appGroups) {
+    Write-Output "Processing Application Group: $($appGroup.Name)"
+    
+    # アプリケーショングループの完全なスコープを設定
+    $scope = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.DesktopVirtualization/applicationGroups/$($appGroup.Name)"
+
+    # アプリケーショングループに割り当てられているロールの一覧を取得
+    $roleAssignments = Get-AzRoleAssignment -Scope $scope
+
+    if ($roleAssignments) {
+        foreach ($assignment in $roleAssignments) {
+            $principalDisplayName = $assignment.DisplayName
+            $roleDefinitionName = $assignment.RoleDefinitionName
+
+            # ロールが "Desktop Virtualization User" の場合のみ追加
+            if ($roleDefinitionName -eq "Desktop Virtualization User") {
+                $results += [PSCustomObject]@{
+                    ApplicationGroup = $appGroup.Name
+                    User = $principalDisplayName
+                    Role = $roleDefinitionName
+                }
+            }
+        }
+    } else {
+        Write-Output "  No roles assigned."
+    }
+}
+
+# 結果をCSVファイルにエクスポート
+$results | Export-Csv -Path "C:\Path\To\Your\Output\AVDUserRoles.csv" -NoTypeInformation
+
+Write-Output "Results exported to C:\Path\To\Your\Output\AVDUserRoles.csv"
