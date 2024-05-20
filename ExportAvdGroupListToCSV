@@ -5,6 +5,9 @@ $resourceGroupName = "YOUR_RESOURCE_GROUP_NAME"
 # サブスクリプションの設定
 Select-AzSubscription -SubscriptionId $subscriptionId
 
+# ユーザーのデスクトップパスを取得
+$desktopPath = [System.IO.Path]::Combine($env:USERPROFILE, "Desktop", "AVDUserRoles.csv")
+
 # 結果を格納する配列を作成
 $results = @()
 
@@ -40,6 +43,6 @@ foreach ($appGroup in $appGroups) {
 }
 
 # 結果をCSVファイルにエクスポート
-$results | Export-Csv -Path "C:\Path\To\Your\Output\AVDUserRoles.csv" -NoTypeInformation
+$results | Export-Csv -Path $desktopPath -NoTypeInformation
 
-Write-Output "Results exported to C:\Path\To\Your\Output\AVDUserRoles.csv"
+Write-Output "Results exported to $desktopPath"
