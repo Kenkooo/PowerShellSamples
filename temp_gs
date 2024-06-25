@@ -1,0 +1,17 @@
+=ARRAYFORMULA(
+  QUERY(
+    {
+      ROW(A2:A),
+      A2:A,
+      IF(MOD(ROW(A2:A)-2, 6)=0, A2:A, ""),
+      IF(MOD(ROW(A2:A)-3, 6)=0, A2:A, ""),
+      IF(MOD(ROW(A2:A)-4, 6)=0, A2:A, ""),
+      IF(MOD(ROW(A2:A)-5, 6)=0, A2:A, ""),
+      IF(MOD(ROW(A2:A)-6, 6)=0, A2:A, "")
+    },
+    "SELECT Col2, Col3, Col4, Col5, Col6, Col7
+     WHERE Col1 IS NOT NULL
+     ORDER BY Col1
+     LABEL Col2 '元のデータ', Col3 'タイトル', Col4 '状態1', Col5 '状態2', Col6 '数値1', Col7 '数値2'"
+  )
+)
